@@ -206,3 +206,30 @@ help:
 	  /^[a-zA-Z0-9_-]+:.*?##/ { printf "  ${FORMATTING_BEGIN_BLUE}%-46s${FORMATTING_END} %s\n", $$1, $$2 } \
 	  /^.?.?##~/              { printf "   %-46s${FORMATTING_BEGIN_YELLOW}%-46s${FORMATTING_END}\n", "", substr($$1, 6) } \
 	  /^##@/                  { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
+# --------------------------------------------------------- SKAS addon
+##@ SKAS
+
+DOCKER_REPO=ghcr.io/skasproject/dex
+DOCKER_IMAGE=$(DOCKER_REPO):$(VERSION)
+
+# You can switch between simple (faster) docker build or multiplatform one.
+# For multiplatform build on a fresh system, do 'make docker-set-multiplatform-builder'
+#DOCKER_BUILD := docker buildx build --builder multiplatform --cache-to type=local,dest=$(BUILDX_CACHE),mode=max --cache-from type=local,src=$(BUILDX_CACHE) --platform linux/amd64,linux/arm64
+DOCKER_BUILD := docker build
+
+# Comment this to just build locally
+DOCKER_PUSH := --push
+
+.PHONY: dump-sk-common
+dump-sk-common:
+	echo "dump-sk-common"
+#	@rm -rf ./dumpzone/skas && mkdir -p ./dumpzone/skas/sk-common
+#	@cp -r ../skas/sk-common/pkg ./dumpzone/skas/sk-common/
+#	@cp -r ../skas/sk-common/proto ./dumpzone/skas/sk-common/
+#	@cp ../skas/sk-common/go.mod ./dumpzone/skas/sk-common/go.mod
+
+
+.PHONY: docker-image
+docker-image: dump-sk-common  ## Build and maybe push SKAS DEX image
+	$(DOCKER_BUILD) ${DOCKER_PUSH} -t $(DOCKER_IMAGE)  .
