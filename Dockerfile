@@ -4,6 +4,10 @@ FROM --platform=$BUILDPLATFORM tonistiigi/xx:1.2.1@sha256:8879a398dedf0aadaacfbd
 
 FROM --platform=$BUILDPLATFORM golang:1.20.4-alpine3.16 AS builder
 
+# For skas connector
+WORKDIR /usr/local/src
+COPY ./dumpzone/skas/ ./skas/
+
 COPY --from=xx / /
 
 RUN apk add --update alpine-sdk ca-certificates openssl clang lld

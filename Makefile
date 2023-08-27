@@ -223,11 +223,10 @@ DOCKER_PUSH := --push
 
 .PHONY: dump-sk-common
 dump-sk-common:
-	echo "dump-sk-common"
-#	@rm -rf ./dumpzone/skas && mkdir -p ./dumpzone/skas/sk-common
-#	@cp -r ../skas/sk-common/pkg ./dumpzone/skas/sk-common/
-#	@cp -r ../skas/sk-common/proto ./dumpzone/skas/sk-common/
-#	@cp ../skas/sk-common/go.mod ./dumpzone/skas/sk-common/go.mod
+	@rm -rf ./dumpzone/skas && mkdir -p ./dumpzone/skas/sk-common
+	@cp -r ../skas/sk-common/pkg ./dumpzone/skas/sk-common/
+	@cp -r ../skas/sk-common/proto ./dumpzone/skas/sk-common/
+	@cp ../skas/sk-common/go.mod ./dumpzone/skas/sk-common/go.mod
 
 
 .PHONY: docker-image

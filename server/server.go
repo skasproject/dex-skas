@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/dexidp/dex/connector/skas"
 	"io/fs"
 	"net/http"
 	"net/url"
@@ -539,6 +540,7 @@ type ConnectorConfig interface {
 // ConnectorsConfig variable provides an easy way to return a config struct
 // depending on the connector type.
 var ConnectorsConfig = map[string]func() ConnectorConfig{
+	"skas":            func() ConnectorConfig { return new(skas.Config) },
 	"keystone":        func() ConnectorConfig { return new(keystone.Config) },
 	"mockCallback":    func() ConnectorConfig { return new(mock.CallbackConfig) },
 	"mockPassword":    func() ConnectorConfig { return new(mock.PasswordConfig) },
